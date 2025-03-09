@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbulut <hbulut@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasretdenizbulut <hasretdenizbulut@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 12:43:09 by hbulut            #+#    #+#             */
-/*   Updated: 2025/03/06 17:29:12 by hbulut           ###   ########.fr       */
+/*   Updated: 2025/03/09 22:36:47 by hasretdeniz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,14 +200,49 @@ void	print_stack(t_list *stack)
 	}
 }
 
+int ft_lstsize(t_list *stack)
+{
+    int i = 0;
+    while (stack)
+    {
+        i++;
+        stack = stack->next;
+    }
+    return (i);
+}
+
+
+
+// void cost_calculator(t_list *stack)
+// {
+//     int begin;
+//     while(stack)
+//     {
+//         begin = stack;   
+//     }
+// }
+
+
+
+
+
 int main(int argc, char *argv[])
 {
+    t_list *b = NULL;
 	if (argc > 2)
 	{
-	
 		t_list *a = init_stack(argc, argv);
-		print_stack(a);
+        if (ft_lstsize(a) > 3)
+        {
+            push_b(&a, &b);
+            push_b(&a, &b);
+        }
+        print_stack(a);
+        printf("*\n");
+        print_stack(b); 
 	}
+
+    
 	return (0);
 }
 
