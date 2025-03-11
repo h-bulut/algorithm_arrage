@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbulut <hbulut@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasretdenizbulut <hasretdenizbulut@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:09:39 by hbulut            #+#    #+#             */
-/*   Updated: 2025/03/06 17:03:45 by hbulut           ###   ########.fr       */
+/*   Updated: 2025/03/10 23:11:49 by hasretdeniz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
 
 typedef struct s_list	t_list;
 

@@ -6,7 +6,7 @@
 /*   By: hasretdenizbulut <hasretdenizbulut@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 12:43:09 by hbulut            #+#    #+#             */
-/*   Updated: 2025/03/09 22:36:47 by hasretdeniz      ###   ########.fr       */
+/*   Updated: 2025/03/11 02:32:56 by hasretdeniz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	free_trash(char **str)
 int	control_ptr(char *arg)
 {
 	int	i = 0;
-	if (ft_strlen(arg) == 0)
-		return (0);
+	// if (ft_strlen(arg) == 0)
+	// 	return (0);
 	if (arg[i] == '-' || arg[i] == '+')
 		i++;
 	while (arg[i])
@@ -58,9 +58,9 @@ int	check_args(int argc, char **argv)
 		if (ft_strchr(argv[i], ' '))
 		{
 			arg = ft_split(argv[i], ' ');
-			if (!arg || !control_double_ptr(arg))
+			if (!arg && !control_double_ptr(arg))
 			{
-				ft_putendl_fd("Error", 2);
+				ft_putendl_fd("Error1", 2);
 				free_trash(arg);
 				exit(1);
 			}
@@ -70,7 +70,7 @@ int	check_args(int argc, char **argv)
 		{
 			if (!control_ptr(argv[i]))
 			{
-				ft_putendl_fd("Error", 2);
+				ft_putendl_fd("Error2", 2);
 				exit(1);
 			}
 		}
@@ -133,18 +133,31 @@ void	add_one(t_list **stack, char *nbr)
 {
 	if (!nbr)
 		return ;
-	ft_newback(stack, ft_atol(nbr));		
+    long j = ft_atol(nbr);
+    if (j < INT_MIN || j > INT_MAX)
+    {
+       ft_putendl_fd("Error", 2);
+        exit (1);
+    }
+	ft_newback(stack, (int)j);	
 }
 
 void 	add_alot(t_list **stack, char *nbr)
 {
 	int i = 0;
+    long j = 0;
 	if (!nbr)
 		return ;
 	char **arg = ft_split(nbr, ' ');
 	while (arg[i])
 	{
-		ft_newback(stack, ft_atol(arg[i]));
+        j = ft_atol(arg[i]);
+        if (j < INT_MIN || j > INT_MAX)
+        {
+            ft_putendl_fd("Error", 2);
+            exit (1);
+        }
+		ft_newback(stack, (int)j);
 		i++;
 	}
 	free_trash(arg);
@@ -163,7 +176,7 @@ void  check_dup(t_list *stack_a)
 		{
 			if (iter->value == head->value)
 			{
-				ft_putendl_fd("Error", 2);
+				ft_putendl_fd("Error3", 2);
 				exit(1);
 			}
 			iter = iter->next;
@@ -171,6 +184,7 @@ void  check_dup(t_list *stack_a)
 		head = head->next;
 	}
 }
+
 t_list *init_stack(int argc, char **argv)
 {
 	int i = 1;
@@ -193,6 +207,8 @@ t_list *init_stack(int argc, char **argv)
 
 void	print_stack(t_list *stack)
 {
+    if (!stack)
+        return;
 	while (stack)
 	{
 		printf("%d\n", stack->value);
@@ -211,27 +227,88 @@ int ft_lstsize(t_list *stack)
     return (i);
 }
 
+int maximum(t_list *b)
+{
+    if (!b)
+        exit(1);
+    t_list *stack = b;
+    int max = (stack)->value; 
+    while (stack)
+    {
+        if (max < stack->value)
+            max = stack->value;
+        stack = stack->next;
+    }
+    return (max);
+}
 
+int minimum(t_list *b)
+{
+    if (!b)
+        exit(1);
+    t_list *stack = b;
+    int min = (stack)->value; 
+    while (stack)
+    {
+        if (min > stack->value)
+            min = stack->value;
+        stack = stack->next;
+    }
+    return (min);
+}
 
-// void cost_calculator(t_list *stack)
-// {
-//     int begin;
-//     while(stack)
-//     {
-//         begin = stack;   
-//     }
-// }
+int who_small(t_list *b, int i)
+{
+    t_list *stack = b;
+    int small = INT_MIN;
+    int max;
+    while (stack)
+    {
+        if (i > stack->value && (small == INT_MIN || stack->value > small))
+        {
+            small = stack->value;
+            max = 1;
+        }
+        stack = stack->next;
+    }
+    if (max)
+        return(small);
+    return (maximum(b));
+}
 
-
-
-
+int cost_node(t_list *stack_a, t_list *stack_b)
+{
+    t_list *a = stack_a;
+    t_list *b = stack_b;
+    t_list *cost = NULL;
+    int i = 0;
+    int j = 0;
+    while (a)
+    {
+        while(who_small(b, a->value) == b->value)
+        {
+            i++;
+            if (ft_lstsize(b) / 2 < i)
+                i = ft_lstsize(b)- i + 1; 
+            b = b->next;
+        }
+        j++;
+        if (ft_lstsize(a) / 2 < j)
+            j= ft_lstsize(a) - j + 1;
+        ft_newback(&cost, (i + j));
+        a = a->next;
+    }
+    return (minimum(cost));
+}
 
 int main(int argc, char *argv[])
 {
     t_list *b = NULL;
-	if (argc > 2)
+	if (argc >= 2)
 	{
 		t_list *a = init_stack(argc, argv);
+        if (!a)
+            exit (1);
         if (ft_lstsize(a) > 3)
         {
             push_b(&a, &b);
@@ -239,10 +316,10 @@ int main(int argc, char *argv[])
         }
         print_stack(a);
         printf("*\n");
-        print_stack(b); 
+        print_stack(b);  
+        printf("-%d-", who_small(b, a->value));
+         printf("*%d*", cost_node(a, b));
 	}
-
-    
 	return (0);
 }
 
