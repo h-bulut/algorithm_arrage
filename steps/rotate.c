@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbulut <hbulut@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasretdenizbulut <hasretdenizbulut@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 21:08:44 by hbulut            #+#    #+#             */
-/*   Updated: 2025/03/06 11:59:33 by hbulut           ###   ########.fr       */
+/*   Updated: 2025/03/12 22:42:22 by hasretdeniz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void rotate_b(t_list **b)
 	dup->next = last;
 	*b = last->next;
 	last->next = NULL;
-	write(1, "ra\n", 3);
+	write(1, "rb\n", 3);
 }
 
 

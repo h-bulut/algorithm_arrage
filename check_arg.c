@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbulut <hbulut@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hasretdenizbulut <hasretdenizbulut@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 12:43:09 by hbulut            #+#    #+#             */
-/*   Updated: 2025/03/11 22:14:06 by hbulut           ###   ########.fr       */
+/*   Updated: 2025/03/13 00:08:29 by hasretdeniz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,7 @@ int calculator(int i, int j)
 			return (i * (-1));
 		return (j * (-1));
 	}
+    return (0);
 }
 
 int cost_b(t_list *a, t_list *b)
@@ -336,26 +337,28 @@ int arrange_stack(t_list *a, t_list *b)
 	return (node);
 }
 
-void steps_stack(t_list *a, t_list *b)
+int steps_stack_a(t_list *a, t_list *b)
 {
 	int a_node = arrange_stack(a, b);
-	int b_node = who_small(b, a_node);
-	int len_a = ft_lstsize(a);
-	int len_b = ft_lstsize(b);
+    int len_a = ft_lstsize(a);
 	int i = 0;
+	
+	while (a_node != a->value)
+		a = a->next;
+	i = (len_a / 2) - ft_lstsize(a);
+    return(i);
+}
+int steps_stack_b(t_list *a, t_list *b)
+{
+    int a_node = arrange_stack(a, b);
+	int b_node = who_small(b, a_node);
+    int len_b = ft_lstsize(b);
 	int j = 0;
 	
-	while (a_node == a->value)
-		a = a->next;
-	i = ft_lstsize(a);
-	while (b_node == b->value)
+	while (b_node != b->value)
 		b = b->next;
-	j = ft_lstsize(b);
-
-	while (i--)
-		reverse_rotate_a(&a);
-	while (j--)
-		reverse_rotate_b(&b);
+	j = (len_b / 2) - ft_lstsize(b);
+    return (j);
 }
 
 int main(int argc, char *argv[])
@@ -370,13 +373,18 @@ int main(int argc, char *argv[])
         {
             push_b(&a, &b);
             push_b(&a, &b);
-        }
-        print_stack(a);
-        printf("*\n");
-        print_stack(b);  
-        printf("-%d-\n", who_small(b, a->value));
-		printf("*%d*\n", arrange_stack(a, b));
-		steps_stack(a,b);
+        } 
+        printf("stack_a hamle sayısı : %d\n", steps_stack_a(a, b));
+        printf("stack_b hamle sayısı : %d\n", steps_stack_b(a, b));
+        // steps_stack_a(a, b);
+        // print_stack(a);
+        // printf("*\n");
+        // print_stack(b); //neden buradan gönderdiğim stack başka bir fonksiyonu steps yaptığımda görüntü alamıyorum   
 	}
 	return (0);
 }
+
+// printf("stack_a\n");
+// print_stack(a);
+// printf("stack_b\n");
+// print_stack(b);
