@@ -8,7 +8,14 @@ SRCS		=	steps/push.c \
 				steps/reverse_rotate.c\
 				steps/rotate.c\
 				steps/swap.c\
-				check_arg.c 
+				main.c\
+				check_arg.c\
+				utils_a.c\
+				utils_b.c\
+				utils_limits.c\
+				utils_list_tools.c\
+				utils_order.c\
+				utils_tools.c\
 
 OBJS		=	$(SRCS:.c=.o)
 
